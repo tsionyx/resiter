@@ -23,5 +23,6 @@ pub use onok::*;
 pub use try_filter::*;
 pub use try_filter_map::*;
 pub use try_map::*;
+pub use unit::*;
 pub use unwrap::*;
 pub use while_ok::*;

@@ -171,6 +171,29 @@
 //! }
 //! ```
 //!
+//!
+//! * Processing the erroneous (side-effect) iteration, producing only the last error if any
+//!
+//! ```
+//! use std::str::FromStr;
+//! use resiter::unit::*;
+//!
+//! let mut acc = vec![];
+//! let mut do_side_effect = |i: Result<usize, _>| {
+//!     i.map(|i| {
+//!         println!("{} is a usize", i);
+//!         acc.push(i);
+//!     })
+//! };
+//!
+//! let res = ["1", "2", "foo", "4", "5"]
+//!     .into_iter()
+//!     .map(|e| do_side_effect(usize::from_str(e)))
+//!     .last_err();
+//! assert_eq!(acc, vec![1, 2, 4, 5]);
+//! assert!(res.is_err());
+//! ```
+//!
 //! # License
 //!
 //! MPL 2.0
@@ -193,6 +216,7 @@ pub mod prelude;
 pub mod try_filter;
 pub mod try_filter_map;
 pub mod try_map;
+pub mod unit;
 pub mod unwrap;
 mod util;
 pub mod while_ok;
@@ -211,6 +235,7 @@ pub use onok::OnOkDo;
 pub use try_filter::TryFilter;
 pub use try_filter_map::TryFilterMap;
 pub use try_map::TryMap;
+pub use unit::FoldUnit;
 pub use unwrap::UnwrapWithExt;
 pub use util::{GetErr, GetOk, Process};
 pub use while_ok::WhileOk;
